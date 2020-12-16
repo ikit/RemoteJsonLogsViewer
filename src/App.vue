@@ -5,46 +5,52 @@
       color="primary"
       dark
     >
-      Log File
-      <v-spacer>
+      <v-btn @click="browseLogFiles()" >
+        <v-icon left dark >
+          far fa-folder-open
+        </v-icon>
+        PROD / api.log
+      </v-btn>
+      <v-btn icon @click="switchRefreshMode()" >
+        <v-icon>fas fa-sync</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
       <v-text-field
+        hide-details
         v-model="filterSearch"
-        prepend-icon="fas fa-user"
+        prepend-icon="fas fa-search"
         label="Search"
       />
       
-      <v-select
-        v-model="filterLevels"
-        prepend-icon="fas fa-user-tag"
-        prepend-inner=""
-        :items="levels"
-        attach
-        chips
-        label="Level"
-        multiple
-        item-text="label"
-        item-value="id"
-      />
-
-      <v-select
-        v-model="filterPpids"
-        prepend-icon="fas fa-user-tag"
-        prepend-inner=""
-        :items="ppids"
-        :disabled="ppids.length < 2"
-        attach
-        chips
-        label="PPID"
-        multiple
-      />
       
-      </v-spacer>
 
-      Recherche
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            Advanced
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>Colapse all</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Filter logs</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Download logs</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-main>
-      <LogReader/>
+      <LogReader :quickSearch="filterSearch"/>
     </v-main>
   </v-app>
 </template>
@@ -60,11 +66,14 @@ export default {
   },
 
   data: () => ({
-    filterLevels: "",
+    filterSearch: "",
     filterLevels: [],
     filterPpids: [],
     levels: [],
     ppids: [],
+
   }),
+  methods: {
+  }
 };
 </script>
